@@ -16,6 +16,8 @@ movies.head(5)  # Print the first 5 rows
 movies.shape  # Get the total rows and columns
 movies.isnull().sum()  # Find the null values in the dataset
 movies.columns  # Print the column headers
+print(combined_wine['quality_label'].unique())
+print(combined_wine['quality_label'].value_counts())
 ```
 
 ---
@@ -106,4 +108,45 @@ most_common = sal['JobTitle'].value_counts()  # Count occurrences in a column
 most_common.head(5)  # Display the top 5 most common values
 grouped_year = mkt_data.groupby(mkt_data['transaction_date'].dt.year)  # Group data by year
 yearly_sums = grouped_year['revenue'].sum()  # Calculate yearly revenue sums
+```
+---
+
+# define a new column 'C' using if-else condition
+```python
+df.loc[df['A'] < 3, 'C'] = 'small'
+df.loc[df['A'] >= 3, 'C'] = 'large'
+```
+
+# Create a new column with values like rw1, rw2, ...
+```python
+whitewine['wine_id'] = ['ww' + str(i+1) for i in range(len(whitewine))]
+whitewine.columns
+whitewine_rows = whitewine.duplicated().sum()
+whitewine_rows
+whitewine.head()
+```
+---
+
+# Load the CSV files
+```python
+whitewine = pd.read_csv('whitewine.csv')
+redwine = pd.read_csv('redwine.csv')
+
+# Add a differentiating column
+whitewine['wine_type'] = 'White'
+redwine['wine_type'] = 'Red'
+
+# Combine the DataFrames
+combined_wine = pd.concat([whitewine, redwine], ignore_index=True)
+
+# Display the combined DataFrame
+print(combined_wine.head())
+
+# Save the combined DataFrame to a new CSV file if needed
+combined_wine.to_csv('combined_wine.csv', index=False)
+```
+# numberical colums Mean
+```python
+numeric_cols = df.select_dtypes(include=[np.number]).columns
+mean_all_cols = df[numeric_cols].mean()
 ```
